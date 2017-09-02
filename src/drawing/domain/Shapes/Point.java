@@ -1,8 +1,8 @@
 package drawing.domain.Shapes;
 
 public class Point {
-    private Double x;
-    private Double y;
+    private final Double x;
+    private final Double y;
 
     public Point(double x, double y) {
         this.x = x;

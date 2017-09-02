@@ -35,6 +35,7 @@ public class Image extends DrawingItem  {
         this.file = file;
     }
 
+    @Override
     public Point getAnchor() {
         return anchor;
     }
@@ -49,11 +50,6 @@ public class Image extends DrawingItem  {
 
     public void setHeight(Double height) {
         this.height = height;
-    }
-
-    @Override
-    public Point getAcnhor() {
-        return null;
     }
 
     @Override

@@ -26,7 +26,7 @@ public class Oval extends DrawingItem {
     }
 
     @Override
-    public Point getAcnhor() {
+    public Point getAnchor() {
         return anchor;
     }
 

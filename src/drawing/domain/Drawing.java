@@ -1,6 +1,6 @@
 package drawing.domain;
 
-public class Drawing {
+class Drawing {
 
     private String name;
     private DrawingItem _drawingItem;

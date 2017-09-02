@@ -5,10 +5,11 @@ import drawing.domain.DrawingItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Polygon extends DrawingItem {
 
-    private ArrayList<Point> vertices;
+    private final ArrayList<Point> vertices;
     private Double weight;
 
     public Polygon(Color color, ArrayList<Point> vertices, double weight) {
@@ -24,7 +25,7 @@ public class Polygon extends DrawingItem {
     }
 
     @Override
-    public Point getAcnhor() {
+    public Point getAnchor() {
         return null;
     }
 
@@ -40,16 +41,16 @@ public class Polygon extends DrawingItem {
 
     @Override
     public String toString() {
-        String returnString = "";
+        StringBuilder returnString = new StringBuilder();
         Iterator<Point> i = vertices.iterator();
         while (i.hasNext()) {
             String point = i.next().toString();
-            returnString += point;
+            returnString.append(point);
             if (i.hasNext()) {
-                returnString += ", ";
+                returnString.append(", ");
             }
         }
-        if (returnString != ""){
+        if (!Objects.equals(returnString.toString(), "")){
             return super.getColor().toString() + " " + returnString;
         }
         return "No vertices available!!";

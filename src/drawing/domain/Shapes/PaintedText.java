@@ -29,11 +29,6 @@ public class PaintedText extends DrawingItem {
     }
 
     @Override
-    public Point getAcnhor() {
-        return null;
-    }
-
-    @Override
     public Double getWidth() {
         return width;
     }
@@ -59,6 +54,7 @@ public class PaintedText extends DrawingItem {
         this.fontName = fontName;
     }
 
+    @Override
     public Point getAnchor() {
         return anchor;
     }

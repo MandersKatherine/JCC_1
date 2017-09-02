@@ -7,16 +7,16 @@ public abstract class DrawingItem {
     private Color color;
     private DrawingItem previousState;
 
-    public DrawingItem(Color color) {
+    protected DrawingItem(Color color) {
         this.color = color;
     }
 
-    public DrawingItem(Color color, DrawingItem previousState) {
+    protected DrawingItem(Color color, DrawingItem previousState) {
         this.color = color;
         this.previousState = previousState;
     }
 
-    public abstract Point getAcnhor();
+    public abstract Point getAnchor();
     public abstract Double getWidth();
 
     public abstract Double getHeight();
