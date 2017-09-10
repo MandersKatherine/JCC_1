@@ -37,5 +37,6 @@ public class Main extends Application {
         System.out.println(drawing.toString());
         System.out.println("Previous state: " + drawing.getDrawingItem().getPreviousState().toString());
 
+        System.exit(0);
     }
 }
