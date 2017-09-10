@@ -67,4 +67,8 @@ public class Polygon extends DrawingItem {
     public void setWeight(Double weight) {
         this.weight = weight;
     }
+
+    public void PaintPolygon(){
+        paint(this);
+    }
 }

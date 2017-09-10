@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import drawing.javafx.*;
+
 
 public class Main extends Application {
 
@@ -37,6 +39,11 @@ public class Main extends Application {
         System.out.println(drawing.toString());
         System.out.println("Previous state: " + drawing.getDrawingItem().getPreviousState().toString());
 
-        System.exit(0);
+        //System.exit(0);
+
+        Oval mauw = new Oval(Color.BLUE, 3, new Point(20, 30), 50, 50);
+
+        new JavaFXPaintable().paint(mauw);
+
     }
 }

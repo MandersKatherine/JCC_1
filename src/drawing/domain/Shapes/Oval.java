@@ -3,6 +3,7 @@ package drawing.domain.Shapes;
 import drawing.domain.Color;
 import drawing.domain.DrawingItem;
 
+
 public class Oval extends DrawingItem {
     private Double weight;
     private Point anchor;
@@ -60,4 +61,9 @@ public class Oval extends DrawingItem {
     public void setHeight(Double height) {
         this.height = height;
     }
+
+    public void PaintOval(){
+        paint(this);
+    }
+
 }
