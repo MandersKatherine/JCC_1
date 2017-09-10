@@ -4,6 +4,12 @@ import drawing.domain.Shapes.Oval;
 import drawing.domain.Shapes.Point;
 import drawing.domain.Shapes.Polygon;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -12,8 +18,47 @@ import drawing.javafx.*;
 
 public class Main extends Application {
 
+    private int clicks = 0;
+    private Point firstClick;
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
+        //todo deze regel weghalen wanneer oval vanuit klikevent beschikbaar is
+
+        Group root = new Group();
+        Scene s = new Scene(root, 300, 300, javafx.scene.paint.Color.BLACK);
+
+        final Canvas canvas = new Canvas(250, 250);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        JavaFXPaintable jfxp = new JavaFXPaintable(gc);
+        root.getChildren().add(canvas);
+
+        primaryStage.setScene(s);
+        primaryStage.show();
+
+        s.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("X: " + event.getX() + " Y: " + event.getY());
+
+                if (clicks >= 1) {
+                    //todo check inbouwen voor de linkerbovenhoek, wanneer deze groter is dan de tweede klik
+                    double width = event.getX() - firstClick.getX();
+                    double height = event.getY() - firstClick.getY();
+
+                    Oval oval = new Oval(Color.BLUE, 3, firstClick, width, height);
+                    jfxp.paint(oval);
+                    clicks = 0;
+                }
+                else {
+                    firstClick = new Point(event.getX(), event.getY());
+                    clicks++;
+                }
+            }
+        });
+
+
     }
 
 
@@ -39,11 +84,7 @@ public class Main extends Application {
         System.out.println(drawing.toString());
         System.out.println("Previous state: " + drawing.getDrawingItem().getPreviousState().toString());
 
-        //System.exit(0);
 
-        Oval mauw = new Oval(Color.BLUE, 3, new Point(20, 30), 50, 50);
-
-        new JavaFXPaintable().paint(mauw);
-
+        launch(args);
     }
 }
