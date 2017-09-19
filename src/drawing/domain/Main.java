@@ -85,13 +85,15 @@ public class Main extends Application {
                 ArrayList<Point> points = new ArrayList<>();
                 points.add(new Point(5.00, 3.00));
                 points.add(new Point(30.00, 40.25));
-                points.add(new Point(70.00, 60.25));
+                points.add(new Point(170.00, 60.25));
                 Polygon polygon = new Polygon(Color.RED, points, 1);
                 jfxp.paint(polygon);
+
+                gc.strokeText("JCC IS COOL", 180, 33);
+
             }
         });
     }
-
 
      public static void main(String[] args) {
                 // New oval

@@ -75,6 +75,8 @@ public class JavaFXPaintable implements IPaintable {
     @Override
     public void paint(PaintedText text) {
 
+
+
     }
 
     @Override
