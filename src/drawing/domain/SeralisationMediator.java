@@ -1,8 +1,6 @@
 package drawing.domain;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class SeralisationMediator implements IPersistencyMediator , java.io.Serializable{
@@ -15,21 +13,32 @@ public class SeralisationMediator implements IPersistencyMediator , java.io.Seri
 
     @Override
     public Drawing load(String name) {
-        //todo returned null wanneer deze niet succesvol wordt uitgevoerd
-        return null;
+        try {
 
+            File f = new File(name + ".ser");
+            FileInputStream fileIn = new FileInputStream(f);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            Drawing d = (Drawing)in.readObject();
+            return d;
+        }
+        catch(Exception i) {
+            i.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public boolean save(Drawing drawing) {
-        //todo het drawing object moet het gehele tekenveld zijn
+        //todo het drawing object moet het gehele tekenveld
         try {
-            FileOutputStream fileOut = new FileOutputStream("/tmp/drawing.ser");
+            //todo de prop.name iets geenidee
+            File f = new File(prop + ".ser");
+            FileOutputStream fileOut = new FileOutputStream(f);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(drawing);
             out.close();
             fileOut.close();
-            System.out.printf("Serialized data is saved in /tmp/drawing.ser");
+            System.out.printf("Serialized data is saved");
             return true;
         }
         catch(IOException i) {
@@ -41,6 +50,6 @@ public class SeralisationMediator implements IPersistencyMediator , java.io.Seri
 
     @Override
     public boolean init(Properties props) {
-        return true;
+        return false;
     }
 }
