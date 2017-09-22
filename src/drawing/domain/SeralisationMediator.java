@@ -15,7 +15,7 @@ public class SeralisationMediator implements IPersistencyMediator , java.io.Seri
     public Drawing load(String name) {
         try {
 
-            File f = new File(name + ".ser");
+            File f = new File("/Users/gebruiker/Documents/FHICT/S3/JCC/" + name + ".ser");
             FileInputStream fileIn = new FileInputStream(f);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             Drawing d = (Drawing)in.readObject();
@@ -29,10 +29,9 @@ public class SeralisationMediator implements IPersistencyMediator , java.io.Seri
 
     @Override
     public boolean save(Drawing drawing) {
-        //todo het drawing object moet het gehele tekenveld
         try {
             //todo de prop.name iets geenidee
-            File f = new File(prop + ".ser");
+            File f = new File("/Users/gebruiker/Documents/FHICT/S3/JCC/" + drawing.getName() + ".ser");
             FileOutputStream fileOut = new FileOutputStream(f);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(drawing);

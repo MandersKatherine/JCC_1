@@ -17,9 +17,9 @@ public class DatabaseMediator implements IPersistencyMediator{
 
     private void initConnection() {
         try {
-            String url = "jdbc:mysql://localhost:3306/tekenapplicatie";
+            String url = "jdbc:mysql://studmysql01.fhict.local/dbi364775";
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            this.con = DriverManager.getConnection(url, "student", "student");
+            this.con = DriverManager.getConnection(url, "dbi364775", "Userpass1!");
         } catch (SQLException var2) {
             var2.printStackTrace();
         } catch (IllegalAccessException var3) {
@@ -34,32 +34,32 @@ public class DatabaseMediator implements IPersistencyMediator{
 
     @Override
     public Drawing load(String name) {
-
+        Drawing drawing = null;
         try {
             this.initConnection();
             Statement myStmt = this.con.createStatement();
-            String sql = "select file from drawing where `name` like ?";
+            String sql = "select * from drawing where name = ?";
             PreparedStatement ps = this.con.prepareStatement(sql);
             ps.setString(1, name);
             ResultSet myRs = ps.executeQuery();
-            File file = new File("D:\\Fontys\\Semester3\\JCC\\SerializationFiles\\" + name + ".ser");
-            FileOutputStream output = new FileOutputStream(file);
+            //todo dit even aanpassen
+            //File file = new File("/Users/gebruiker/Documents/FHICT/S3/JCC/" + name + ".ser");
+            //FileOutputStream output = new FileOutputStream(file);
+            
             if (myRs.next()) {
-                InputStream input = myRs.getBinaryStream("file");
-                byte[] buffer = new byte[1024];
-
-                while(input.read(buffer) > 0) {
-                    output.write(buffer);
-                }
+                byte[] input = myRs.getBytes(2);
+                ObjectInputStream objectIn = new ObjectInputStream(new ByteArrayInputStream(input));
+                drawing = (Drawing) objectIn.readObject();
             }
+            myRs.close();
+            myStmt.close();
         } catch (IOException | SQLException var10) {
             var10.printStackTrace();
             this.closeConnection();
             return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-
-        SeralisationMediator s = new SeralisationMediator();
-        Drawing drawing = s.load(name);
         this.closeConnection();
         return drawing;
 
@@ -69,19 +69,19 @@ public class DatabaseMediator implements IPersistencyMediator{
     public boolean save(Drawing drawing) {
         try{
         this.initConnection();
-        SeralisationMediator s = new SeralisationMediator();
-        s.save(drawing);
-        String sql = "INSERT INTO drawing(name, file) VALUES (?,?);";
+        //SeralisationMediator s = new SeralisationMediator();
+        //s.save(drawing);
+        String sql = "INSERT INTO drawing(name, drawing) VALUES (?,?);";
         PreparedStatement myStmt = this.con.prepareStatement(sql);
-        File file = new File("D:\\Fontys\\Semester3\\JCC\\SerializationFiles\\" + drawing.getName() + ".ser");
-        FileInputStream input = new FileInputStream(file);
+        //File file = new File("/Users/gebruiker/Documents/FHICT/S3/JCC/" + drawing.getName() + ".ser");
+        //FileInputStream input = new FileInputStream(file);
         myStmt.setString(1, drawing.getName());
-        myStmt.setBinaryStream(2, input);
+        myStmt.setObject(2, drawing);
         myStmt.executeUpdate();
         this.closeConnection();
         return true;
         }
-        catch (FileNotFoundException | SQLException var7) {
+        catch ( SQLException var7) {
             var7.printStackTrace();
             this.closeConnection();
             return false;

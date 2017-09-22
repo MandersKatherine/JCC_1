@@ -1,6 +1,8 @@
 package drawing.domain.Shapes;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable {
     private final Double x;
     private final Double y;
 

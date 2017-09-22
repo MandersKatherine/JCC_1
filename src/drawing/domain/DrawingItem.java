@@ -2,8 +2,10 @@ package drawing.domain;
 import drawing.domain.Shapes.*;
 import javafx.scene.shape.*;
 
+import java.io.Serializable;
 
-public abstract class DrawingItem implements IPaintable{
+
+public abstract class DrawingItem implements IPaintable, Serializable{
 
     private Color color;
     private DrawingItem previousState;

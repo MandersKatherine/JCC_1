@@ -27,6 +27,7 @@ public class Main extends Application {
 
     private int clicks = 0;
     private Point firstClick;
+    private JavaFXPaintable jfxp;
 
     @Override
     public void start(Stage primaryStage) {
@@ -38,19 +39,20 @@ public class Main extends Application {
         final Canvas canvas = new Canvas(500, 300);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        JavaFXPaintable jfxp = new JavaFXPaintable(gc);
+        jfxp = new JavaFXPaintable(gc);
         root.getChildren().add(canvas);
-
+        Drawing d = new DatabaseMediator().load("Drawing");
+        for (DrawingItem item : d.getDrawings()) {
+            if(item.getClass() == Oval.class){
+                jfxp.paint((Oval)item);
+            }
+            else if (item.getClass() == Polygon.class){
+                jfxp.paint((Polygon)item);
+            }
+        }
         primaryStage.setScene(s);
         primaryStage.show();
 
-
-        //s.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
-        // @Override
-        // public void handle(javafx.scene.input.KeyEvent keyEvent) {
-
-        //  }
-        // });
 
         s.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -71,16 +73,6 @@ public class Main extends Application {
                     firstClick = new Point(event.getX(), event.getY());
                     clicks++;
                 }
-                // }
-                //else if (cbPolygon.Checked){
-
-                //ArrayList<Point> points = new ArrayList<>();
-
-                //Point currentPoint = new Point(event.getX(), event.getY());
-                //points.add(currentPoint);
-
-                //Polygon polygon = new Polygon(color.Red, points, 1);
-                //if(keyEvent.isShiftDown()){
 
                 ArrayList<Point> points = new ArrayList<>();
                 points.add(new Point(5.00, 3.00));
@@ -105,8 +97,8 @@ public class Main extends Application {
                 // Array with points of a polygon, a triangle in this case
                 ArrayList<Point> points = new ArrayList<>();
                 points.add(new Point(5.00, 3.00));
-                points.add(new Point(3.00, 4.25));
-                points.add(new Point(7.00, 6.25));
+                points.add(new Point(80.00, 45.25));
+                points.add(new Point(150.00, 90.25));
 
                 // Create polygon
                 item = new Polygon(Color.BLUE, item, points, 1.00);
@@ -115,6 +107,14 @@ public class Main extends Application {
                 drawing.setName("Triangle");
                 System.out.println(drawing.toString());
                 System.out.println("Previous state: " + drawing.getDrawingItem().getPreviousState().toString());
+
+                ArrayList<DrawingItem> di = new ArrayList<>();
+                di.add(new Oval(Color.BLUE, 2.00, new Point(3.50, 3.50), 30.00, 40.00));
+                di.add(new Polygon(Color.RED, points, 1));
+                Drawing d = new Drawing("Drawing", di);
+                new DatabaseMediator().save(d);
+
+                
 
 
                 launch(args);
